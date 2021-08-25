@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:triangle_war/menu.dart';
 import 'package:triangle_war/util/localization/my_localizations_delegate.dart';
 
-import 'game.dart';
 import 'menu.dart';
 import 'util/localization/my_localizations_delegate.dart';
 

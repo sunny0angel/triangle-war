@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/body_component.dart';
@@ -58,8 +59,8 @@ class Ball extends BodyComponent {
   @override
   void renderCircle(Canvas c, Offset center, double radius) {
     super.renderCircle(c, center, radius);
-    final lineRotation = Offset(0, radius);
-    c.drawLine(center, center + lineRotation, _blue);
+    // final lineRotation = Offset(0, radius);
+    // c.drawLine(center, center + lineRotation, _blue);
   }
 
   @override
@@ -76,9 +77,60 @@ class Ball extends BodyComponent {
   }
 }
 
+class ShrapnelBall extends Ball {
+  ShrapnelBall(Vector2 position, double radius)
+      : super(position, radius: radius);
+
+  late CircleShape _shape;
+  late FixtureDef _fixtureDef;
+
+  late BodyDef _bodyDef;
+
+  @override
+  Body createBody() {
+    _shape = (CircleShape()..radius = radius);
+
+    _fixtureDef = FixtureDef(_shape)
+      ..restitution = 0.8
+      ..density = 1.0
+      ..friction = 0.4;
+
+    _bodyDef = BodyDef()
+      // To be able to determine object in collision
+      ..userData = this
+      ..angularDamping = Random().nextDouble()
+      ..position = _position
+      ..type = BodyType.dynamic
+      ..bullet = true;
+
+    return world.createBody(_bodyDef)..createFixture(_fixtureDef);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_shape.radius > 0.05) {
+      _shape.radius = _shape.radius - 0.05;
+      body.applyAngularImpulse(Random().nextDouble());
+      body.applyLinearImpulse(Vector2.random() * 1000,
+          point: Vector2.random() * 1000);
+      _timeSinceNudge += dt;
+    } else {
+      this.remove();
+    }
+  }
+}
+
 class WhiteBall extends Ball {
   WhiteBall(Vector2 position) : super(position) {
     originalPaint = BasicPalette.white.paint();
+    paint = originalPaint;
+  }
+}
+
+class TransparentBall extends Ball {
+  TransparentBall(Vector2 position) : super(position) {
+    originalPaint = Paint()..color = Colors.transparent;
     paint = originalPaint;
   }
 }

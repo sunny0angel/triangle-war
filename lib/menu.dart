@@ -1,15 +1,9 @@
-import 'dart:async' as async;
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:triangle_war/game.dart';
-import 'package:triangle_war/util/animations/enemy_sprite_sheet.dart';
-import 'package:triangle_war/util/animations/player_sprite_sheet.dart';
 import 'package:triangle_war/util/function/common_func.dart';
 import 'package:triangle_war/util/localization/strings_location.dart';
 import 'package:triangle_war/util/sounds.dart';
@@ -18,6 +12,8 @@ import 'package:triangle_war/util/widget/bgm_mute_button.dart';
 import 'package:triangle_war/util/widget/dialogs.dart';
 import 'package:triangle_war/util/widget/full_screen_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'game_widget.dart';
 
 late double initHeight;
 late double initWidth;
@@ -95,7 +91,8 @@ class _MenuState extends State<Menu> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Game()),
+                              MaterialPageRoute(
+                                  builder: (context) => MainGameWidget()),
                             );
                           },
                         ),

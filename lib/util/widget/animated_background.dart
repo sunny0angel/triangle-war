@@ -13,7 +13,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     with SingleTickerProviderStateMixin {
   //动画控制器
   late AnimationController controller;
-  late Animation<double> animation;
 
   @override
   void initState() {
